@@ -5,9 +5,11 @@ Token: 	xdRtVRjotxEKXVgzXgCgadmAWrHkKFrr
 Reference Website: https://www.ncdc.noaa.gov/cdo-web/webservices/v2
 
 Notes on Hierarchy:
-
+Given all endpoints how do we generically get data from it?
 
 Notes on Classes:
+
+Java Generics: http://docs.oracle.com/javase/tutorial/java/generics/types.html
 
 
 Notes on Interfaces:
