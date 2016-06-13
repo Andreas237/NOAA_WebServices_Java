@@ -22,9 +22,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import com.endpoints.datasets;
 
-
-class endpoints {
+class endpoints extends datasets {
 	
 	protected ArrayList<String> endpointList;
 	private String baseURL = "http://www.ncdc.noaa.gov/cdo-web/api/v2";
@@ -57,4 +57,5 @@ class endpoints {
 Create classes for each endpoint to handle
 OR
 Generalize all endpoints?  identify and create template class....
+* Datasets, Data Categories have the same parameters
 */
