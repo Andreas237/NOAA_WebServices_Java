@@ -12,13 +12,31 @@ Notes on Classes:
 Java Generics: http://docs.oracle.com/javase/tutorial/java/generics/types.html
 
 
+
+#######################################################################################
+Flow of the Application:
+-----------------------
+
+
+
+------          ----          -------          -------          -------
+Choose    ->    Send    ->    Receive    ->    Process    ->    Display
+------          ----          -------          -------          -------
+
+Where "Choose" and "Send" are part of the Request package;
+and "Receive," "Process," "Display" are part of the Response package
+
+
+
+#######################################################################################
 Notes on Interfaces:
+--------------------
 
 
 
-
-
+#######################################################################################
 Coding Standards:
+-----------------
 
 
 	Classes should have this outline:
@@ -51,10 +69,11 @@ Coding Standards:
 			
 	Methods should have:
 	-----------------------------------------------------------------------------------	
-		/**
-		Purpose: detailed description 
-		Parameters: [optional] [type what they are bring]
-		Returns: [what is sent back and type]
-		Throws [Exception(s)]: [description]
-		*/
+			/**
+			 * Function: Name 
+			 * Purpose: detailed description 
+			 * Parameters: [optional] [type what they are bring]
+			 * Returns: [what is sent back and type]
+			 * Throws [Exception(s)]: [description]
+			*/
 		

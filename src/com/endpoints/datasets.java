@@ -1,7 +1,7 @@
 /**
  * Author: Andreas Slovacek
  * Created Date: 10 June 2016
- * Last Modified: 10 June 2016
+ * Last Modified: 25 July 2016
  */
 
 package com.endpoints;
@@ -17,7 +17,9 @@ import java.util.*;
 * Called by endpoints.java to handle this endpoint
 */
 
-
+/** NOTE: ENDPOINTS Class SHOULD BE ABSTRACT/VIRTUAL AND HAVE ALL THE METHODS, VARS ETC NEEDED FOR *AN* ENDPOINT.
+ * 		Each named endpoint will have an interface/ derived class.
+**/
 
 class datasets{
 	

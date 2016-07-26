@@ -1,3 +1,9 @@
+/**
+ * Author: Andreas Slovacek
+ * Created Date: 10 June 2016
+ * Last Modified: 25 July 2016
+ */
+
 package com.endpoints;
 
 
@@ -24,16 +30,19 @@ import org.xml.sax.SAXException;
 
 import com.endpoints.datasets;
 
-class endpoints extends datasets {
+public class endpoints extends datasets {
 	
-	protected ArrayList<String> endpointList;
+	public ArrayList<String> endpointList;
 	private String baseURL = "http://www.ncdc.noaa.gov/cdo-web/api/v2";
 	
-	/**
-	 * @fn endpoints: constructor
-	 * @var endpointList: list of endpoints from the site
-	 */
-	endpoints(){
+/**
+ * Purpose: to 
+* @fn endpoints: constructor
+* @var endpointList: list of endpoints from the site
+*/
+	
+	
+	public endpoints(){
 		endpointList = new ArrayList<String>();
 		endpointList.add("/datasets");
 		endpointList.add("/datacategories");
@@ -45,6 +54,27 @@ class endpoints extends datasets {
 		
 	}// end endpoints()
 	
+	
+	
+	/*
+	 * @fn setupEndpoints
+	 * @input void
+	 * @return endpointList ArrayList<String>
+	 * @Purpose sets up a list of endpoints 
+	 */
+	public ArrayList<String> setupEndpoints( ){
+		endpointList = new ArrayList<String>();
+		endpointList.add("/datasets");
+		endpointList.add("/datacategories");
+		endpointList.add("/datatypes");
+		endpointList.add("/locationcategories");
+		endpointList.add("/locations");
+		endpointList.add("/stations");
+		endpointList.add("/data");
+		
+		return endpointList;
+		
+	}// end endpoints()
 	
 	
 }// End class endpoints

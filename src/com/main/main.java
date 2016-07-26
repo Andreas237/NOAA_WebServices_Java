@@ -1,6 +1,5 @@
 package com.main;
 
-import com.endpoints.*;
 
 // NET libs
 import java.net.*;
@@ -21,6 +20,7 @@ import org.json.simple.parser.ParseException;
 
 // My classes
 import com.endpoints.*;
+import com.requests.*;
 
 class main {
 	
@@ -29,99 +29,16 @@ class main {
 		
 		// Stuff from me
 		String baseURL = new String("http://www.ncdc.noaa.gov/cdo-web/api/v2");
-		String key = new String("xdRtVRjotxEKXVgzXgCgadmAWrHkKFrr");
-		ArrayList<String> endpointsList = new ArrayList<String>();
-		endpointsList.add("/locations");
+		String token = new String("xdRtVRjotxEKXVgzXgCgadmAWrHkKFrr");
+		ArrayList<String> endpointsList = (new endpoints() ).setupEndpoints() ; // get the list of endpoints		
 		
-		/**
-		 * Java URL tutorial: http://alvinalexander.com/java/edu/pj/pj010011
-		 */
-		// 1: We'll need this stuff.
-		URL myURL; // URL handler
-		InputStream is = null; // input handler
-		DataInputStream dis = null; //
-		String s;
+		for(int i = 0; i < endpointsList.size(); i++ ){
+			System.out.println( "#" + i + ":\t" + endpointsList.get(i) );
+		}
+
+		ReadJSONInput rbis = new ReadJSONInput(baseURL,token, endpointsList );
 		
-		
-		try{
-		//------------------------------------------------------------//
-        // Step 2:  Create the URL.                                   //
-        //------------------------------------------------------------//
-        // Note: Put your real URL here, or better yet, read it as a  //
-        // command-line arg, or read it from a file.                  //
-        //------------------------------------------------------------//
-			System.out.println("Trying to print myURL.......");
-			myURL = new URL(baseURL + endpointsList.get(0)); // throws MalformedURLException
-		
-			System.out.println(myURL);
-			System.out.println("Printed myURL");
-		
-		
-		
-		//----------------------------------------------//
-        // Step 3:  Open an input stream from the url.  //
-        //----------------------------------------------//
-			// Open a URL connections
-			URLConnection connection = (URLConnection) myURL.openConnection();
-			connection.setRequestProperty("token",key);
-			System.out.println("Getting content...");
-			System.out.println(connection.getDoOutput() );
 			
-			
-			// actual open stream
-			System.out.println("Trying to open Stream....");
-			is = connection.getInputStream(); // throws IOException
-			System.out.println("Stream opened");
-		
-		
-		//-------------------------------------------------------------//
-        // Step 4:                                                     //
-        //-------------------------------------------------------------//
-        // Convert the InputStream to a buffered DataInputStream.      //
-        // Buffering the stream makes the reading faster; the          //
-        // readLine() method of the DataInputStream makes the reading  //
-        // easier.                                                     //
-        //-------------------------------------------------------------//
-			dis = new DataInputStream(new BufferedInputStream(is));
-		
-		
-		
-		//------------------------------------------------------------//
-        // Step 5:                                                    //
-        //------------------------------------------------------------//
-        // Now just read each record of the input stream, and print   //
-        // it out.  Note that it's assumed that this problem is run   //
-        // from a command-line, not from an application or applet.    //
-        //------------------------------------------------------------//
-			while ((s = dis.readLine()) != null) {
-	            System.out.println(s);
-	         }
-			
-			
-			
-			}// end try
-			catch (MalformedURLException mue){
-				System.out.println("Damn- malformed URL..");
-				mue.printStackTrace();
-				System.exit(1);
-			}// end MalformedURLException
-			catch (IOException ioe){
-				System.out.println("Damn- IO exception..");
-				ioe.printStackTrace();
-				System.exit(1);
-			}// end IOException
-			finally {
-				//---------------------------------//
-		        // Step 6:  Close the InputStream  //
-		        //---------------------------------//
-				try {
-		            is.close();
-		         } catch (IOException ioe) {
-		            // just going to ignore this one
-		         }
-				
-			}// end finally
-		
 		
 	}// End public static void main
 	
