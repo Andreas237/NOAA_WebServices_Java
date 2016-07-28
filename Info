@@ -41,39 +41,68 @@ Coding Standards:
 
 	Classes should have this outline:
 	-----------------------------------------------------------------------------------	
-		/**
-			Version # |	Author Name	|	Date (dd/mm/yyyy)	|	Detail	|	Description
-		*/
-		<access> class <name>{
-			// Static block
-			{
-				// Static vars
-				// static methods	
-			}
-			
-			// Non-static vars
-			
-			// constructors
-			
-			// getters & setters
-			
-			// action methods (?)
-			
-			// logical methods
-			
-			// inner classes and functions
-			
-		}// end class	
+/**
+ * Version: #
+ * Author: Author
+ * Date: DD MMMM YYYY
+ * Description: [one sentence what is this for]
+ * Detail: [paragraphs if needed- what does this object do, why and how]
+*/
+<access> class <name>{
+	
+	/**********************************************************/
+	// Static block
+	/**********************************************************/
+	{
+		// Static vars
+		// static methods	
+	}
+	
+	
+	/**********************************************************/		
+	// Non-static vars
+	/**********************************************************/
+	
+	
+	/**********************************************************/
+	// constructors
+	/**********************************************************/
+	
+	
+	/**********************************************************/
+	// getters
+	/**********************************************************/
+	
+	
+	/**********************************************************/
+	// setters
+	/**********************************************************/
+	
+	
+	/**********************************************************/
+	// action methods (?)
+	/**********************************************************/
+	
+	/**********************************************************/
+	// logical methods
+	/**********************************************************/
+	
+	/**********************************************************/
+	// inner classes and functions
+	/**********************************************************/
+	
+	
+}// end class	
 			
 			
 			
 	Methods should have:
 	-----------------------------------------------------------------------------------	
-			/**
-			 * Function: Name 
-			 * Purpose: detailed description 
-			 * Parameters: [optional] [type what they are bring]
-			 * Returns: [what is sent back and type]
-			 * Throws [Exception(s)]: [description]
-			*/
+/**
+ * Function: Name 
+ * Purpose: detailed description 
+ * Parameters: [optional] [type what they are bring]
+ * Returns: [what is sent back and type]
+ * Throws [Exception(s)]: [description]
+*/
 		

@@ -2,6 +2,10 @@
  * Author: Andreas Slovacek
  * Created Date: 10 June 2016
  * Last Modified: 25 July 2016
+ * 
+ * 
+ * Change log:
+ * 
  */
 
 package com.endpoints;
@@ -28,21 +32,20 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import com.endpoints.datasets;
 
-public class endpoints extends datasets {
+public class EndpointsList {
 	
 	public ArrayList<String> endpointList;
 	private String baseURL = "http://www.ncdc.noaa.gov/cdo-web/api/v2";
 	
 /**
  * Purpose: to 
-* @fn endpoints: constructor
-* @var endpointList: list of endpoints from the site
+* @fn Endpoints: constructor
+* @var endpointList: list of Endpoints from the site
 */
 	
 	
-	public endpoints(){
+	public EndpointsList(){
 		endpointList = new ArrayList<String>();
 		endpointList.add("/datasets");
 		endpointList.add("/datacategories");
@@ -52,7 +55,7 @@ public class endpoints extends datasets {
 		endpointList.add("/stations");
 		endpointList.add("/data");
 		
-	}// end endpoints()
+	}// end Endpoints()
 	
 	
 	
@@ -60,7 +63,7 @@ public class endpoints extends datasets {
 	 * @fn setupEndpoints
 	 * @input void
 	 * @return endpointList ArrayList<String>
-	 * @Purpose sets up a list of endpoints 
+	 * @Purpose sets up a list of Endpoints 
 	 */
 	public ArrayList<String> setupEndpoints( ){
 		endpointList = new ArrayList<String>();
@@ -74,10 +77,10 @@ public class endpoints extends datasets {
 		
 		return endpointList;
 		
-	}// end endpoints()
+	}// end Endpoints()
 	
 	
-}// End class endpoints
+}// End class Endpoints
 
 
 
@@ -86,6 +89,6 @@ public class endpoints extends datasets {
 /*
 Create classes for each endpoint to handle
 OR
-Generalize all endpoints?  identify and create template class....
+Generalize all Endpoints?  identify and create template class....
 * Datasets, Data Categories have the same parameters
 */

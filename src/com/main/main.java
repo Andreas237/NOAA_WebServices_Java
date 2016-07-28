@@ -21,6 +21,7 @@ import org.json.simple.parser.ParseException;
 // My classes
 import com.endpoints.*;
 import com.requests.*;
+import com.response.EndpointObject;
 
 class main {
 	
@@ -30,16 +31,14 @@ class main {
 		// Stuff from me
 		String baseURL = new String("http://www.ncdc.noaa.gov/cdo-web/api/v2");
 		String token = new String("xdRtVRjotxEKXVgzXgCgadmAWrHkKFrr");
-		ArrayList<String> endpointsList = (new endpoints() ).setupEndpoints() ; // get the list of endpoints		
+		ArrayList<String> endpointsList = (new EndpointsList() ).setupEndpoints() ; // get the list of endpoints	
 		
-		for(int i = 0; i < endpointsList.size(); i++ ){
-			System.out.println( "#" + i + ":\t" + endpointsList.get(i) );
-		}
 
-		ReadJSONInput rbis = new ReadJSONInput(baseURL,token, endpointsList );
+		ReadJSONInput rbis = new ReadJSONInput(baseURL,token, endpointsList.get(0) );			
 		
-			
+		EndpointObject EpObj = new EndpointObject( rbis.getStreamReturn() );
 		
+		System.out.println("RUN FINISHED");
 	}// End public static void main
 	
 }// end main class

@@ -1,29 +1,25 @@
-package com.requests;
-
 /**
  * Author: Andreas Slovacek
  * Created: 25 July 2016
- * Last Modified: 25 July 2016
+ * 
+ * Change log:
+ * 
+ * 		27 July 2016 - 	i) Componentized the calls to outside URL
+ * 						ii) readStream() returns a string to the class.  This will be sent to another object
  */
 
+
+package com.requests;
 
 
 //NET libs
 import java.net.*;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
 
-//JSON Library
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
 
 
 /**
@@ -46,31 +42,48 @@ public class ReadJSONInput {
   
 	
 	// 1: We'll need this stuff.
-	private URL myURL; // URL handler
-	private InputStream is = null; // input handler
 	private DataInputStream dis = null; //
+	private String endpointType = null;
+	private InputStream is = null; // input handler
 	private String s;
+	private String streamReturn; // returned 
+	private URL myURL; // URL handler
 	
 	
 	// Set from constructor call
-	public String baseURL;
-	public String token;
-	public ArrayList<String> endpointsList;
+	protected String baseURL;
+	protected String token;
+	protected String endpoint;
 	
 	
-	public ReadJSONInput(String baseURL, String token, ArrayList<String> endpointsList){
+	
+	
+	
+	
+	
+	/**
+	 * Function: ReadJSONInput 
+	 * Purpose: constructor that calls all the processing funcitons in this class 
+	 * Parameters: [optional] [type what they are bring]
+	 * Returns: [what is sent back and type]
+	 * Throws [Exception(s)]: [description]
+	*/
+	public ReadJSONInput(String baseURL, String token, String endpoint){
 		
 		this.baseURL = new String(baseURL);
 		this.token = new String (token);
-		this.endpointsList = new ArrayList<String>( endpointsList );
+		this.endpoint = new String( endpoint );
+		this.endpointType = new String( endpoint.replace("'/", "") );
 
 		
 		dis = GetStream();
-		readStream();
+		this.streamReturn = readStream();
 		closeStream();
-		
+				
 		
 	}// end ReadJSONInput constructor
+	
+	
 	
 	
 	
@@ -89,7 +102,7 @@ public class ReadJSONInput {
         // command-line arg, or read it from a file.                  //
         //------------------------------------------------------------//
 			System.out.println("Trying to print myURL.......");
-			myURL = new URL(baseURL + endpointsList.get(0)); // throws MalformedURLException
+			myURL = new URL(baseURL + endpoint); // throws MalformedURLException
 		
 			System.out.println(myURL);
 			System.out.println("Printed myURL");
@@ -121,11 +134,6 @@ public class ReadJSONInput {
         // easier.                                                     //
         //-------------------------------------------------------------//
 			dis = new DataInputStream(new BufferedInputStream(is));
-		
-		
-		
-
-			
 			
 			
 			}// end try
@@ -147,7 +155,17 @@ public class ReadJSONInput {
 	}// end GetStream
 	
 	
-	private void readStream() {
+	
+	
+	
+	
+	/**
+	 * Function: readStream 
+	 * Purpose: Reads from data input stream and prints the result
+	 * Parameters: Use class memeber variable dis
+	 * Returns: string value returned from stream
+	*/
+	private String readStream() {
 		//------------------------------------------------------------//
         // Step 5:                                                    //
         //------------------------------------------------------------//
@@ -155,9 +173,10 @@ public class ReadJSONInput {
         // it out.  Note that it's assumed that this problem is run   //
         // from a command-line, not from an application or applet.    //
         //------------------------------------------------------------//
+		String streamString = null;
 		try{	
 			while ((s = this.dis.readLine()) != null) {
-	            System.out.println(s);
+				streamString = streamString + s;
 	         }// end while ((s = this.dis.readLine()) != null)
 		}// end try
 			catch (IOException ioe){
@@ -165,7 +184,27 @@ public class ReadJSONInput {
 				ioe.printStackTrace();
 				System.exit(1);
 			}// end IOException
+		
+		return streamString;
 	}// end ReadStream
+	
+	
+	
+	
+	
+	
+	/**
+	 * Function: getStreamReturn 
+	 * Purpose: Return the streamReturn variable as string
+	 * Parameters: none
+	 * Returns: String streamReturn
+	*/
+	public String getStreamReturn(){
+		return this.streamReturn;
+	}// end processStream
+	
+	
+	
 	
 	
 	
@@ -182,7 +221,12 @@ public class ReadJSONInput {
          }// end catch (IOException ioe)
 	}// end closeStream
 	
-}// end class ReadJSONInput
+	
+	
+	
+	
+	
+	}// end class ReadJSONInput
 
 
 
