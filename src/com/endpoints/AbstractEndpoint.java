@@ -30,7 +30,7 @@ public abstract class AbstractEndpoint {
 	
 	
 	// Results
-	protected Integer datacoverage; 
+	protected Long datacoverage; 
 	protected String datasetid;    //Required. Accepts a single valid dataset id. Data returned will be from the dataset specified.
 	protected String datatypeid;    //Optional. Accepts a valid data type id or a chain of data type ids seperated by ampersands. Data returned will contain all of the data type(s) specified.
 	protected String enddate;    //Required. Accepts valid ISO formated date (YYYY-MM-DD) or date time (YYYY-MM-DDThh:mm:ss). Data returned will be before the specified date.
@@ -61,7 +61,7 @@ public abstract class AbstractEndpoint {
 	/**********************************************************/
 	// getters
 	/**********************************************************/
-	protected Integer getDatacoverage(){	return this.datacoverage; } // return the value of this object in datacoverage
+	protected Long getDatacoverage(){	return this.datacoverage; } // return the value of this object in datacoverage
 	protected String getDatasetid(){    return this.datasetid ;}  // return the value of this object in datasetid
 	protected String getDatatypeid(){    return this.datatypeid ;}  // return the value of this object in datatypeid
 	protected String getEnddate(){    return this.enddate ;}  // return the value of this object in enddate
@@ -82,7 +82,7 @@ public abstract class AbstractEndpoint {
 	/**********************************************************/
 	// setters
 	/**********************************************************/	
-	protected void setDatascoverage( Integer datacoverage){		this.datacoverage = datacoverage; }
+	protected void setDatascoverage( Long datacoverage){		this.datacoverage = datacoverage; }
 	protected void setDatasetid( String datasetid){    this.datasetid = datasetid;}  // set the value of this object in datasetid
 	protected void setDatatypeid( String datatypeid){    this.datatypeid = datatypeid;}  // set the value of this object in datatypeid
 	protected void setEnddate( String enddate){    this.enddate = enddate;}  // set the value of this object in enddate
@@ -126,7 +126,7 @@ public abstract class AbstractEndpoint {
 			
 			setDatasetid( (String) obj.get( "id" ) );
 			setName( (String) obj.get("name") );
-			setDatascoverage( (Integer) obj.get("datacoverage"));
+			setDatascoverage( (Long) obj.get("datacoverage"));
 			setMindate( (String) obj.get("mindate") );
 			setMaxdate( (String) obj.get("maxdate") );
 
