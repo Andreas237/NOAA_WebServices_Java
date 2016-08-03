@@ -34,8 +34,8 @@ class main {
 		ArrayList<String> endpointsList = (new EndpointsList() ).setupEndpoints() ; // get the list of endpoints	
 		
 
-		ReadJSONInput rbis = new ReadJSONInput(baseURL,token, endpointsList.get(0) );			
-		
+		ReadJSONInput rbis = new ReadJSONInput(baseURL,token, endpointsList.get(4) );			
+
 		EndpointObject EpObj = new EndpointObject( rbis.getStreamReturn() );
 		
 		System.out.println("RUN FINISHED");

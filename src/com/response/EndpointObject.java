@@ -3,7 +3,8 @@
  * Created: 27 July 2016
  * 
  * Change log:
- * 
+ * 		2 August 2016 - buildJSONObject(String) updated and has begun breaking down the string to
+ * 						its JSON components
  */
 
 
@@ -37,7 +38,8 @@ public class EndpointObject extends AbstractEndpoint{
 	/**********************************************************/		
 	// Non-static vars
 	/**********************************************************/
-	ArrayList<String> fieldList;
+	ArrayList<String> fieldList; // fields within a result
+	ArrayList<String> metadataFieldList; // metadata fields
 	
 	
 	/**********************************************************/
@@ -51,7 +53,10 @@ public class EndpointObject extends AbstractEndpoint{
 	public EndpointObject(String inputResponseString){
 		// Setup the field list
 		this.fieldList = buildFieldList();
+		this.metadataFieldList = buildMetadataFieldList();
+		
 		// Fill in the inherited memeber variables
+
 		buildJSONObject( inputResponseString );
 		
 		System.out.println( getDatasetid() );
@@ -82,6 +87,7 @@ public class EndpointObject extends AbstractEndpoint{
 	*/
 	private ArrayList<String> buildFieldList(){
 		ArrayList<String> fieldList = new ArrayList<String>();
+		
 		fieldList.add("datasetid");
 		fieldList.add("datatypeid");
 		fieldList.add("locationid");
@@ -103,6 +109,25 @@ public class EndpointObject extends AbstractEndpoint{
 	
 	
 	/**
+	 * Function: buildMetadataFieldList
+	 * Purpose: Sets up the fields as a list
+	 * Returns: ArrayList<String> of fields
+	*/
+	private ArrayList<String> buildMetadataFieldList(){
+		ArrayList<String> metadataFieldList = new ArrayList<String>();
+		
+		metadataFieldList.add("metadata");
+		metadataFieldList.add("resultset");
+
+		
+		return metadataFieldList;
+	}// end ArrayList<String> buildFieldList()
+	
+	
+	
+	
+	
+	/**
 	 * Function: buildJSONObject 
 	 * Purpose: Takes a JSON object and fills in the fields 
 	 * 			inherited from the ABstractEndpoints class 
@@ -114,22 +139,38 @@ public class EndpointObject extends AbstractEndpoint{
 		// Object obj = ;
 		
 		try{
+			//System.out.println(inStr);
 			JSONObject obj =  (JSONObject) parser.parse(inStr) ;
+			System.out.println("Made it past parser...");
+			// setDatasetid( (String)obj.get(datasetid) );
+			System.out.println("\n\nPrinting various things:");
 			
-			setDatasetid( (String)obj.get(datasetid) );
+			System.out.println( "\nobj.get(\"metadata\") = " + obj.get("metadata") + "\n" );
+			System.out.println( "\nobj.get(\"results\") = " + obj.get("results") + "\n" );
+			
+			System.out.println();
+			System.out.println("-----------------------------------------------------------");
+			System.out.println("\t\tTrying to reference JSON Array Value");
+			System.out.println("-----------------------------------------------------------");
+			JSONArray resultArray = (JSONArray) obj.get("results");
+			System.out.println( resultArray.get(0) );
+			
+			System.out.println();
+			System.out.println("-----------------------------------------------------------");
+			System.out.println("\t\tTrying to populate SingleItem (derived from AbstractEndpoint)");
+			System.out.println("-----------------------------------------------------------");
+			singleItem = new SingleItem( (JSONObject) resultArray.get(0) ); 
+			System.out.println("from result array, maxdate = " + this.getMaxdate() );
+			
+			
+			
 		}// end try
 		catch( ParseException pe){
 			System.out.println("Damn- Parse Exception..");
 			pe.printStackTrace();
 			System.exit(1);
 		}// end catch( ParseException pe)
-		
-		
-		// Add the fields to the object
-//		for( int i = 0; i < this.fieldList.size(); i++){
-	//		obj.putIfAbsent( fieldList.get(i), null);
-		//}// end for( int i = 0; i < this.fieldList.size(); i++)
-		
+	
 		
 		
 		// Get the corresponding JSON  fields and set the member

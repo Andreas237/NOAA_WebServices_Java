@@ -45,15 +45,15 @@ public class ReadJSONInput {
 	private DataInputStream dis = null; //
 	private String endpointType = null;
 	private InputStream is = null; // input handler
-	private String s;
-	private String streamReturn; // returned 
+	private String s = null;
+	private String streamReturn = null; // returned 
 	private URL myURL; // URL handler
 	
 	
 	// Set from constructor call
-	protected String baseURL;
-	protected String token;
-	protected String endpoint;
+	protected String baseURL = null;
+	protected String token = null;
+	protected String endpoint = null;
 	
 	
 	
@@ -173,7 +173,7 @@ public class ReadJSONInput {
         // it out.  Note that it's assumed that this problem is run   //
         // from a command-line, not from an application or applet.    //
         //------------------------------------------------------------//
-		String streamString = null;
+		String streamString = new String();
 		try{	
 			while ((s = this.dis.readLine()) != null) {
 				streamString = streamString + s;
@@ -185,6 +185,7 @@ public class ReadJSONInput {
 				System.exit(1);
 			}// end IOException
 		
+		System.out.println("Stream:\n---------------------------------\n" + streamString);
 		return streamString;
 	}// end ReadStream
 	
