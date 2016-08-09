@@ -3,13 +3,17 @@
  * Created: 27 July 2016
  * 
  * Change log:
- * 
+ * 		9 August 2016 - printResults() and printSingleItem() functions not available since
+ * 						the classes set this master classes values.  Should create a new object for
+ * 						for each value added to the results and the fields should be in the singleItem class.
+ * 						Metadata will set the other values
+ * 						
  */
 
 package com.endpoints;
 
 import org.json.simple.JSONObject;
-
+import java.util.ArrayList;
 
 /**
  * Version: 1
@@ -27,10 +31,14 @@ public abstract class AbstractEndpoint {
 	/**********************************************************/
 	// Objects
 	public SingleItem singleItem;
+	public ArrayList<SingleItem> results;
+	public MetaData metadata;
 	
 	
 	// Results
-	protected Long datacoverage; 
+	
+	protected Integer count;
+	protected Double datacoverage; 
 	protected String datasetid;    //Required. Accepts a single valid dataset id. Data returned will be from the dataset specified.
 	protected String datatypeid;    //Optional. Accepts a valid data type id or a chain of data type ids seperated by ampersands. Data returned will contain all of the data type(s) specified.
 	protected String enddate;    //Required. Accepts valid ISO formated date (YYYY-MM-DD) or date time (YYYY-MM-DDThh:mm:ss). Data returned will be before the specified date.
@@ -48,11 +56,6 @@ public abstract class AbstractEndpoint {
 	protected String units;    //Optional. Accepts the literal strings 'standard' or 'metric'. Data will be scaled and converted to the specified units. If a unit is not provided then no scaling nor conversion will take place.
 	
 	
-	// Metadata
-	protected String metadata;
-	protected String resultset; // contains limit, count, offset
-	
-	
 	/**********************************************************/
 	// constructors
 	/**********************************************************/
@@ -61,7 +64,8 @@ public abstract class AbstractEndpoint {
 	/**********************************************************/
 	// getters
 	/**********************************************************/
-	protected Long getDatacoverage(){	return this.datacoverage; } // return the value of this object in datacoverage
+	protected Integer getCount(){	return this.count; }	
+	protected Double getDatacoverage(){	return this.datacoverage; } // return the value of this object in datacoverage
 	protected String getDatasetid(){    return this.datasetid ;}  // return the value of this object in datasetid
 	protected String getDatatypeid(){    return this.datatypeid ;}  // return the value of this object in datatypeid
 	protected String getEnddate(){    return this.enddate ;}  // return the value of this object in enddate
@@ -82,7 +86,8 @@ public abstract class AbstractEndpoint {
 	/**********************************************************/
 	// setters
 	/**********************************************************/	
-	protected void setDatascoverage( Long datacoverage){		this.datacoverage = datacoverage; }
+	protected void setCount( Integer count){	this.count = count; }  // set the value of this object in count
+	protected void setDatascoverage( Double datacoverage){		this.datacoverage = datacoverage; }
 	protected void setDatasetid( String datasetid){    this.datasetid = datasetid;}  // set the value of this object in datasetid
 	protected void setDatatypeid( String datatypeid){    this.datatypeid = datatypeid;}  // set the value of this object in datatypeid
 	protected void setEnddate( String enddate){    this.enddate = enddate;}  // set the value of this object in enddate
@@ -105,6 +110,34 @@ public abstract class AbstractEndpoint {
 	// action methods (?)
 	/**********************************************************/
 	
+	/**
+	 * Function: printResults 
+	 * Purpose: dthis function prints all the items in the results ArrayList
+	 * Parameters: None.  Uses this.results
+	 * Returns: None
+	 * Throws None
+	*/
+	public void printResults(){
+		
+	}// end printResults
+	
+	
+	
+	
+	/**
+	 * Function: printResults 
+	 * Purpose: This function prints the fields in a Single Item
+	 * Parameters: None.  Uses this.results
+	 * Returns: None
+	 * Throws None
+	*/
+	public void printSingleItem( SingleItem so){
+		// System.out.println( this.getId() );
+	}// end printResults
+	
+	
+	
+	
 	/**********************************************************/
 	// logical methods
 	/**********************************************************/
@@ -116,22 +149,43 @@ public abstract class AbstractEndpoint {
 	 * Version: 1
 	 * Author: Andreas Slovacek
 	 * Date: 02 August 2016
-	 * Description: This class takes JSON input for a Single Item as defined and populates fields
+	 * Description: This class takes JSON input for a Single Item and populates fields
 	 * Detail: 	Call setter methods on the fields found in a "Single Item"
 	 * 			Reference here - https://www.ncdc.noaa.gov/cdo-web/webservices/v2#gettingStarted
 	*/
 	protected class SingleItem{
 		
 		public SingleItem(JSONObject obj){
-			
+						
 			setDatasetid( (String) obj.get( "id" ) );
 			setName( (String) obj.get("name") );
-			setDatascoverage( (Long) obj.get("datacoverage"));
+			setDatascoverage( (Double)(obj.get("datacoverage")) );
 			setMindate( (String) obj.get("mindate") );
 			setMaxdate( (String) obj.get("maxdate") );
 
 		}// end SingleItem(JSONObject obj)
 	}// end class SingleItem
+
+
+	
+	
+	/**
+	 * Version: 1
+	 * Author: Andreas Slovacek
+	 * Date: 03 August 2016
+	 * Description: This class takes JSON input for a Metadata Item and populates fields
+	 * Detail: 	Call setter methods on the fields found in a "Single Item"
+	 * 			Reference here - https://www.ncdc.noaa.gov/cdo-web/webservices/v2#gettingStarted
+	*/
+	protected class MetaData{
+		
+		public MetaData(JSONObject obj){
+			JSONObject resultset = new JSONObject( obj );
+			setLimit( (Integer) obj.get("limit") );
+			setCount( (Integer) obj.get("count") );
+			setOffset( (Integer) obj.get("offset") );
+		}// end MetaData
+	}// end class MetaData
 
 
 	

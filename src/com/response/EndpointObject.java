@@ -5,6 +5,8 @@
  * Change log:
  * 		2 August 2016 - buildJSONObject(String) updated and has begun breaking down the string to
  * 						its JSON components
+ * 		9 August 2016 - Test "Trying to populate SingleItem (derived from AbstractEndpoint)" runs
+ * 						if result(0) not used... Interesting...
  */
 
 
@@ -154,13 +156,30 @@ public class EndpointObject extends AbstractEndpoint{
 			System.out.println("-----------------------------------------------------------");
 			JSONArray resultArray = (JSONArray) obj.get("results");
 			System.out.println( resultArray.get(0) );
+
+			
+			System.out.println();
+			System.out.println("-----------------------------------------------------------");
+			System.out.println("\t\tTest SingleItem (from AbstractEndpoint)");
+			System.out.println("-----------------------------------------------------------");
+			this.singleItem = new SingleItem((JSONObject) resultArray.get(1) );
+			System.out.println( "Printing resultArray[1]:\t" + resultArray.get(1)  );
+			System.out.println( this.getName() );
+			System.out.println( "datacoverage set in Single Item:\t" + this.getDatacoverage() );
 			
 			System.out.println();
 			System.out.println("-----------------------------------------------------------");
 			System.out.println("\t\tTrying to populate SingleItem (derived from AbstractEndpoint)");
 			System.out.println("-----------------------------------------------------------");
-			singleItem = new SingleItem( (JSONObject) resultArray.get(0) ); 
-			System.out.println("from result array, maxdate = " + this.getMaxdate() );
+			singleItem = new SingleItem( (JSONObject) resultArray.get(2) ); 
+			System.out.println("from result array: maxdate = " + this.getMaxdate() );
+			
+			System.out.println();
+			System.out.println("-----------------------------------------------------------");
+			System.out.println("\t\tTrying to print whole Results array (derived from AbstractEndpoint)");
+			System.out.println("-----------------------------------------------------------");
+			singleItem = new SingleItem( (JSONObject) resultArray.get(2) ); 
+			System.out.println("from result array: maxdate = " + this.getMaxdate() );
 			
 			
 			
