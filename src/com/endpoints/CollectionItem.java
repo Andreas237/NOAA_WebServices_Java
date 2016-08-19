@@ -3,16 +3,22 @@
  * Created: 27 July 2016
  * 
  * Change log:
- * 		9 August 2016 - printResults() and printSingleItem() functions not available since
+ * 		09 August 2016 - printResults() and printSingleItem() functions not available since
  * 						the classes set this master classes values.  Should create a new object for
  * 						for each value added to the results and the fields should be in the singleItem class.
  * 						Metadata will set the other values
+ * 		11 August 2016 - moved buildJSONObject from EndpointObject
+ * 		17 August 2016 - Added "hasResults" function
  * 						
  */
 
 package com.endpoints;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.util.ArrayList;
 
 /**
@@ -22,10 +28,10 @@ import java.util.ArrayList;
  * Description: Implements the endpoints, getters, setters
  * Detail: All endpoints have this many fields at most
 */
-public abstract class AbstractEndpoint {
-	
+public class CollectionItem{
 
-	
+
+
 	/**********************************************************/		
 	// Non-static vars
 	/**********************************************************/
@@ -33,12 +39,13 @@ public abstract class AbstractEndpoint {
 	public SingleItem singleItem;
 	public ArrayList<SingleItem> results;
 	public MetaData metadata;
+	public JSONObject CollectionItemJSON;
 	
 	
 	// Results
 	
 	protected Integer count;
-	protected Double datacoverage; 
+	protected Double datacoverage; // Single Item datacoverage
 	protected String datasetid;    //Required. Accepts a single valid dataset id. Data returned will be from the dataset specified.
 	protected String datatypeid;    //Optional. Accepts a valid data type id or a chain of data type ids seperated by ampersands. Data returned will contain all of the data type(s) specified.
 	protected String enddate;    //Required. Accepts valid ISO formated date (YYYY-MM-DD) or date time (YYYY-MM-DDThh:mm:ss). Data returned will be before the specified date.
@@ -59,6 +66,46 @@ public abstract class AbstractEndpoint {
 	/**********************************************************/
 	// constructors
 	/**********************************************************/
+	
+	
+	/**
+	 * Function: CollectionItem(JSONObject obj) 
+	 * Purpose: Constructor that takes a JSON Object and
+	 * 			updates associated member variables
+	 * Parameters: JSONObject obj
+	*/
+	public CollectionItem(JSONObject obj) {
+		
+		// TODO: create results ArrayList
+		// Call "SingleItem" consturctor
+		
+		// Get Metadata	
+	}// end public CollectionItem(JSONObject obj)
+	
+	
+	
+	
+	
+	/**
+	 * Function: CollectionItem(String inString) 
+	 * Purpose: Takes a string Object and
+	 * 			updates associated member variables
+	 * Parameters: String inString - JSON format with CollectionItem
+	 * 								fields
+	*/
+	public CollectionItem(String inString) {
+		
+		this.buildJSONObject(inString);
+
+		this.metadata = new MetaData( (JSONObject) this.CollectionItemJSON.get("metadata") ) ;
+		
+		// Call "SingleItem" consturctor
+		this.results = new ArrayList<SingleItem>();
+		this.buildResults(this.results, this.CollectionItemJSON );
+
+	}// end public CollectionItem(JSONObject obj)
+	
+	
 	
 	
 	/**********************************************************/
@@ -106,34 +153,116 @@ public abstract class AbstractEndpoint {
 
 
 	
+	
+	
+	
+	
+	
+	
 	/**********************************************************/
-	// action methods (?)
+	// action methods
 	/**********************************************************/
 	
+	
 	/**
-	 * Function: printResults 
-	 * Purpose: dthis function prints all the items in the results ArrayList
-	 * Parameters: None.  Uses this.results
-	 * Returns: None
-	 * Throws None
+	 * Function: buildJSONObject 
+	 * Purpose: Takes a string object and using the JSON parser
+	 * 			turns it into a JSON Object
+	 * Parameters: String inStr - JSON format with CollectionItem
+	 * 								fields
 	*/
-	public void printResults(){
+	public void buildJSONObject( String inStr){
+		JSONParser parser = new JSONParser();
 		
-	}// end printResults
+		try{
+			//System.out.println(inStr);
+			CollectionItemJSON =  (JSONObject) parser.parse(inStr) ;
+			
+		}// end try
+		catch( ParseException pe){
+			System.out.println("Damn- Parse Exception in ..");
+			pe.printStackTrace();
+			System.exit(1);
+		}// end catch( ParseException pe)		
+	}// end void buildJSONObject( JSONObject obj)
+	
+	
 	
 	
 	
 	
 	/**
-	 * Function: printResults 
-	 * Purpose: This function prints the fields in a Single Item
-	 * Parameters: None.  Uses this.results
-	 * Returns: None
-	 * Throws None
+	 * Function: buildResults
+	 * Purpose: Take a collection of "Results" and ArrayList to put
+	 * 			them in; iterate through them creating records
+	 * Parameters: 	ArrayList<SingleItem> results - empty array list
+	 * 				JSONObject collection - collection of "Results"
+	 * 					from source
 	*/
-	public void printSingleItem( SingleItem so){
-		// System.out.println( this.getId() );
-	}// end printResults
+	private void buildResults(ArrayList<SingleItem> results, JSONObject collection){
+		System.out.println("Now in:\tFile \" CollectionItem.java \" \tFunction \"buildResults\"");	
+		
+		JSONArray resultArray = (JSONArray) collection.get("results");
+		System.out.println("\n\nResult: " + collection.get("results").toString() );
+		System.out.println("\nResults 0: " + resultArray.get(0) );
+		
+		
+		// Loop through the array, add each result as SingleItem to result
+		for( Integer i = 0; i < resultArray.size(); i++ ){
+			results.add( new SingleItem( (JSONObject)resultArray.get(i) ) );
+		}// end for( Integer i = 0; i < resultArray.size(); i++ )
+		
+	}// end private void buildResults
+	
+	
+	
+	
+	
+	
+	
+	/**********************************************************/
+	// data test methods
+	/**********************************************************/
+	/*
+	System.out.println("Made it past parser...");
+	// setDatasetid( (String)obj.get(datasetid) );
+	System.out.println("\n\nPrinting various things:");
+	
+	System.out.println( "\nobj.get(\"metadata\") = " + obj.get("metadata") + "\n" );
+	System.out.println( "\nobj.get(\"results\") = " + obj.get("results") + "\n" );
+	
+	System.out.println();
+	System.out.println("-----------------------------------------------------------");
+	System.out.println("\t\tTrying to reference JSON Array Value");
+	System.out.println("-----------------------------------------------------------");
+	JSONArray resultArray = (JSONArray) obj.get("results");
+	System.out.println( resultArray.get(0) );
+
+	
+	System.out.println();
+	System.out.println("-----------------------------------------------------------");
+	System.out.println("\t\tTest SingleItem (from CollectionItem)");
+	System.out.println("-----------------------------------------------------------");
+	this.singleItem = new SingleItem((JSONObject) resultArray.get(1) );
+	System.out.println( "Printing resultArray[1]:\t" + resultArray.get(1)  );
+	System.out.println( this.getName() );
+	System.out.println( "datacoverage set in Single Item:\t" + this.getDatacoverage() );
+	
+	System.out.println();
+	System.out.println("-----------------------------------------------------------");
+	System.out.println("\t\tTrying to populate SingleItem (derived from CollectionItem)");
+	System.out.println("-----------------------------------------------------------");
+	singleItem = new SingleItem( (JSONObject) resultArray.get(2) ); 
+	System.out.println("from result array: maxdate = " + this.getMaxdate() );
+	
+	System.out.println();
+	System.out.println("-----------------------------------------------------------");
+	System.out.println("\t\tTrying to print whole Results array (derived from CollectionItem)");
+	System.out.println("-----------------------------------------------------------");
+	singleItem = new SingleItem( (JSONObject) resultArray.get(2) ); 
+	System.out.println("from result array: maxdate = " + this.getMaxdate() );
+	*/
+	
 	
 	
 	
@@ -141,31 +270,29 @@ public abstract class AbstractEndpoint {
 	/**********************************************************/
 	// logical methods
 	/**********************************************************/
+	/**
+	 * Function: hasResults
+	 * Purpose: Take a collection JSON object and check whether it has
+	 * 			results in it
+	 * Parameters: 	JSONObject collection - collection of "Results"
+	 * 
+	*/
+	public boolean hasResults( JSONObject obj){
+		boolean answer = false ;
+		
+		if( obj.get("results") != null ){ answer = true; }
+		
+		return answer;
+	}// end public boolean hasResults( JSONObject obj)
+	
+	
+	
+	
+	
 	
 	/**********************************************************/
-	// inner classes and functions
+	// inner classes
 	/**********************************************************/
-	/**
-	 * Version: 1
-	 * Author: Andreas Slovacek
-	 * Date: 02 August 2016
-	 * Description: This class takes JSON input for a Single Item and populates fields
-	 * Detail: 	Call setter methods on the fields found in a "Single Item"
-	 * 			Reference here - https://www.ncdc.noaa.gov/cdo-web/webservices/v2#gettingStarted
-	*/
-	protected class SingleItem{
-		
-		public SingleItem(JSONObject obj){
-						
-			setDatasetid( (String) obj.get( "id" ) );
-			setName( (String) obj.get("name") );
-			setDatascoverage( (Double)(obj.get("datacoverage")) );
-			setMindate( (String) obj.get("mindate") );
-			setMaxdate( (String) obj.get("maxdate") );
-
-		}// end SingleItem(JSONObject obj)
-	}// end class SingleItem
-
 
 	
 	
@@ -187,22 +314,9 @@ public abstract class AbstractEndpoint {
 		}// end MetaData
 	}// end class MetaData
 
-
-	
-	/**
-	 * Version: 1
-	 * Author: Andreas Slovacek
-	 * Date: 02 August 2016
-	 * Description: This class takes JSON input for a Collection of items with metadata as defined and populates fields
-	 * Detail: 	Call setter methods on the fields found in a "Single Item"
-	 * 			Reference here - https://www.ncdc.noaa.gov/cdo-web/webservices/v2#gettingStarted
-	*/
-	class CollectionWithMetadata{
-		
-	} // end class CollectionWithMetadata
 	
 	
 	
 	
 
-}// end abstract class AbstractEndpoint
+}// end abstract class CollectionItem

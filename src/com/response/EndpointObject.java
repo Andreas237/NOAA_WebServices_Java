@@ -3,16 +3,17 @@
  * Created: 27 July 2016
  * 
  * Change log:
- * 		2 August 2016 - buildJSONObject(String) updated and has begun breaking down the string to
+ * 		02 August 2016 - buildJSONObject(String) updated and has begun breaking down the string to
  * 						its JSON components
- * 		9 August 2016 - Test "Trying to populate SingleItem (derived from AbstractEndpoint)" runs
+ * 		09 August 2016 - Test "Trying to populate SingleItem (derived from CollectionItem)" runs
  * 						if result(0) not used... Interesting...
+ * 		12 August 2016 - moving buildJSONObject to CollectionItem
  */
 
 
 package com.response;
 
-import com.endpoints.AbstractEndpoint;
+import com.endpoints.CollectionItem;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ import org.json.simple.parser.ParseException;
  * 			Passed the string with the response as a parameter
  * 			Use JSON API to parse into EndpointObject fields
 */
-public class EndpointObject extends AbstractEndpoint{
+public class EndpointObject {
 
 	
 	
@@ -42,6 +43,11 @@ public class EndpointObject extends AbstractEndpoint{
 	/**********************************************************/
 	ArrayList<String> fieldList; // fields within a result
 	ArrayList<String> metadataFieldList; // metadata fields
+	JSONObject thisJson; // input JSON from stream
+	CollectionItem Collection; // The collection
+	
+	
+	
 	
 	
 	/**********************************************************/
@@ -59,9 +65,9 @@ public class EndpointObject extends AbstractEndpoint{
 		
 		// Fill in the inherited memeber variables
 
-		buildJSONObject( inputResponseString );
+		this.Collection = new CollectionItem(inputResponseString);
 		
-		System.out.println( getDatasetid() );
+		//System.out.println( getDatasetid() );
 		
 	}// end EndpointObject(String inputResponseString)
 	
@@ -70,18 +76,23 @@ public class EndpointObject extends AbstractEndpoint{
 	/**********************************************************/
 	// getters
 	/**********************************************************/
-	
-	
+
+
+
 	/**********************************************************/
 	// setters
 	/**********************************************************/
-	
-	
+
+
+
+
 	/**********************************************************/
 	// action methods (?)
 	/**********************************************************/
-	
-	
+
+
+
+
 	/**
 	 * Function: buildFieldList
 	 * Purpose: Sets up the fields as a list
@@ -129,73 +140,7 @@ public class EndpointObject extends AbstractEndpoint{
 	
 	
 	
-	/**
-	 * Function: buildJSONObject 
-	 * Purpose: Takes a JSON object and fills in the fields 
-	 * 			inherited from the ABstractEndpoints class 
-	 * Parameters: String inStr - JSON format with AbstractEndpoint
-	 * 								fields
-	*/
-	private void buildJSONObject( String inStr){
-		JSONParser parser = new JSONParser();
-		// Object obj = ;
-		
-		try{
-			//System.out.println(inStr);
-			JSONObject obj =  (JSONObject) parser.parse(inStr) ;
-			System.out.println("Made it past parser...");
-			// setDatasetid( (String)obj.get(datasetid) );
-			System.out.println("\n\nPrinting various things:");
-			
-			System.out.println( "\nobj.get(\"metadata\") = " + obj.get("metadata") + "\n" );
-			System.out.println( "\nobj.get(\"results\") = " + obj.get("results") + "\n" );
-			
-			System.out.println();
-			System.out.println("-----------------------------------------------------------");
-			System.out.println("\t\tTrying to reference JSON Array Value");
-			System.out.println("-----------------------------------------------------------");
-			JSONArray resultArray = (JSONArray) obj.get("results");
-			System.out.println( resultArray.get(0) );
-
-			
-			System.out.println();
-			System.out.println("-----------------------------------------------------------");
-			System.out.println("\t\tTest SingleItem (from AbstractEndpoint)");
-			System.out.println("-----------------------------------------------------------");
-			this.singleItem = new SingleItem((JSONObject) resultArray.get(1) );
-			System.out.println( "Printing resultArray[1]:\t" + resultArray.get(1)  );
-			System.out.println( this.getName() );
-			System.out.println( "datacoverage set in Single Item:\t" + this.getDatacoverage() );
-			
-			System.out.println();
-			System.out.println("-----------------------------------------------------------");
-			System.out.println("\t\tTrying to populate SingleItem (derived from AbstractEndpoint)");
-			System.out.println("-----------------------------------------------------------");
-			singleItem = new SingleItem( (JSONObject) resultArray.get(2) ); 
-			System.out.println("from result array: maxdate = " + this.getMaxdate() );
-			
-			System.out.println();
-			System.out.println("-----------------------------------------------------------");
-			System.out.println("\t\tTrying to print whole Results array (derived from AbstractEndpoint)");
-			System.out.println("-----------------------------------------------------------");
-			singleItem = new SingleItem( (JSONObject) resultArray.get(2) ); 
-			System.out.println("from result array: maxdate = " + this.getMaxdate() );
-			
-			
-			
-		}// end try
-		catch( ParseException pe){
-			System.out.println("Damn- Parse Exception..");
-			pe.printStackTrace();
-			System.exit(1);
-		}// end catch( ParseException pe)
 	
-		
-		
-		// Get the corresponding JSON  fields and set the member
-		
-		
-	}// end void buildJSONObject( JSONObject obj)
 	
 	/**********************************************************/
 	// logical methods

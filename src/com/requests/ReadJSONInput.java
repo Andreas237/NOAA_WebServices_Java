@@ -147,7 +147,7 @@ public class ReadJSONInput {
 			catch (IOException ioe){
 				System.out.println("Damn- IO exception..");
 				ioe.printStackTrace();
-				System.exit(1);
+				System.exit(0);
 			}// end IOException
 
 		
