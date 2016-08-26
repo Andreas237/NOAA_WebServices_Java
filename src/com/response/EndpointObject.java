@@ -30,7 +30,7 @@ import org.json.simple.parser.ParseException;
  * Author: Andreas
  * Date: 27 July 2016
  * Description: Takes the string from the response and parses it
- * Detail:	This class is called in Process
+ * Detail:	This class is called in ReadJSONInput
  * 			Passed the string with the response as a parameter
  * 			Use JSON API to parse into EndpointObject fields
 */
@@ -41,10 +41,10 @@ public class EndpointObject {
 	/**********************************************************/		
 	// Non-static vars
 	/**********************************************************/
-	ArrayList<String> fieldList; // fields within a result
-	ArrayList<String> metadataFieldList; // metadata fields
-	JSONObject thisJson; // input JSON from stream
-	CollectionItem Collection; // The collection
+	private ArrayList<String> fieldList; // fields within a result
+	private ArrayList<String> metadataFieldList; // metadata fields
+	private JSONObject thisJson; // input JSON from stream
+	private CollectionItem Collection; // The collection
 	
 	
 	
@@ -67,16 +67,27 @@ public class EndpointObject {
 
 		this.Collection = new CollectionItem(inputResponseString);
 		
+		this.Collection.printTheCollection();
+		
 		//System.out.println( getDatasetid() );
 		
 	}// end EndpointObject(String inputResponseString)
 	
 	
 	
+	
+	
+	
+	
 	/**********************************************************/
 	// getters
 	/**********************************************************/
-
+	
+	public ArrayList<String> getFieldList(){			return this.fieldList; }
+	public ArrayList<String> getMetadataFieldList(){	return this.metadataFieldList; }
+	public JSONObject getThisJson(){					return this.thisJson; }
+	public CollectionItem getCollectionItem(){  		return this.Collection;	}
+	
 
 
 	/**********************************************************/
@@ -135,20 +146,8 @@ public class EndpointObject {
 		
 		return metadataFieldList;
 	}// end ArrayList<String> buildFieldList()
+
 	
-	
-	
-	
-	
-	
-	
-	/**********************************************************/
-	// logical methods
-	/**********************************************************/
-	
-	/**********************************************************/
-	// inner classes and functions
-	/**********************************************************/
 	
 
 }// end class EndpointObject

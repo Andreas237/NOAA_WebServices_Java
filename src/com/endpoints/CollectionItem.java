@@ -20,6 +20,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
 
 /**
  * Version: 1
@@ -38,7 +40,6 @@ public class CollectionItem{
 	// Objects
 	public SingleItem singleItem;
 	public ArrayList<SingleItem> results;
-	public MetaData metadata;
 	public JSONObject CollectionItemJSON;
 	
 	
@@ -97,7 +98,7 @@ public class CollectionItem{
 		
 		this.buildJSONObject(inString);
 
-		this.metadata = new MetaData( (JSONObject) this.CollectionItemJSON.get("metadata") ) ;
+		this.setMetaData( (JSONObject) this.CollectionItemJSON.get("metadata") );
 		
 		// Call "SingleItem" consturctor
 		this.results = new ArrayList<SingleItem>();
@@ -151,6 +152,13 @@ public class CollectionItem{
 	protected void setStationid( String stationid){    this.stationid = stationid;}  // set the value of this object in stationid
 	protected void setUnits( String units){    this.units = units;}  // set the value of this object in units
 
+	protected void setMetaData(JSONObject obj){
+		JSONObject resultset = new JSONObject( obj );
+		
+		setLimit( (Integer) obj.get("limit") );
+		setCount( (Integer) obj.get("count") );
+		setOffset( (Integer) obj.get("offset") );
+	}// end MetaData
 
 	
 	
@@ -200,11 +208,13 @@ public class CollectionItem{
 	 * 					from source
 	*/
 	private void buildResults(ArrayList<SingleItem> results, JSONObject collection){
-		System.out.println("Now in:\tFile \" CollectionItem.java \" \tFunction \"buildResults\"");	
+		// System.out.println("Now in:\tFile \" CollectionItem.java \" \tFunction \"buildResults\"");	
+		// System.out.println("\n\nResult: " + collection.get("results").toString() );
+		// System.out.println("\nResults 0: " + resultArray.get(0) );
+		
 		
 		JSONArray resultArray = (JSONArray) collection.get("results");
-		System.out.println("\n\nResult: " + collection.get("results").toString() );
-		System.out.println("\nResults 0: " + resultArray.get(0) );
+
 		
 		
 		// Loop through the array, add each result as SingleItem to result
@@ -223,45 +233,49 @@ public class CollectionItem{
 	/**********************************************************/
 	// data test methods
 	/**********************************************************/
-	/*
-	System.out.println("Made it past parser...");
-	// setDatasetid( (String)obj.get(datasetid) );
-	System.out.println("\n\nPrinting various things:");
 	
-	System.out.println( "\nobj.get(\"metadata\") = " + obj.get("metadata") + "\n" );
-	System.out.println( "\nobj.get(\"results\") = " + obj.get("results") + "\n" );
 	
-	System.out.println();
-	System.out.println("-----------------------------------------------------------");
-	System.out.println("\t\tTrying to reference JSON Array Value");
-	System.out.println("-----------------------------------------------------------");
-	JSONArray resultArray = (JSONArray) obj.get("results");
-	System.out.println( resultArray.get(0) );
+	
+	/**
+	 * Function: printMetadata
+	 * Purpose: Print the metadata fields in the object
+	 */
+	protected void printMetadata(){
+		System.out.println("----- Metadata -----");
+		System.out.println( "Limit: " + getLimit() );
+		System.out.println( "Count: " + getCount() );
+		System.out.println( "Offset: " + getOffset() );
+	}// end public void printMetadata()
+	
+	
+	
+	
+	/**
+	 * Function: printTheCollection
+	 * Purpose: Prints the Metadata and any results
+	 */
+	public void printTheCollection(){
+		
+		String sep = "------------------------------" ;
+		
+		
+		// Print the Metadata
+		System.out.println(sep);
+		this.printMetadata();
+		
+		// If the results array has items print them
+		if( results.size() > 0 ){
 
+			for( SingleItem s : this.results ){
+				System.out.println(sep);
+				s.printAllFields();
+				
+			}// end while( itr.hasNext() )
+			
+		}// end if( results.size() > 0 )
+		
+	}// end public void printTheCollection
 	
-	System.out.println();
-	System.out.println("-----------------------------------------------------------");
-	System.out.println("\t\tTest SingleItem (from CollectionItem)");
-	System.out.println("-----------------------------------------------------------");
-	this.singleItem = new SingleItem((JSONObject) resultArray.get(1) );
-	System.out.println( "Printing resultArray[1]:\t" + resultArray.get(1)  );
-	System.out.println( this.getName() );
-	System.out.println( "datacoverage set in Single Item:\t" + this.getDatacoverage() );
-	
-	System.out.println();
-	System.out.println("-----------------------------------------------------------");
-	System.out.println("\t\tTrying to populate SingleItem (derived from CollectionItem)");
-	System.out.println("-----------------------------------------------------------");
-	singleItem = new SingleItem( (JSONObject) resultArray.get(2) ); 
-	System.out.println("from result array: maxdate = " + this.getMaxdate() );
-	
-	System.out.println();
-	System.out.println("-----------------------------------------------------------");
-	System.out.println("\t\tTrying to print whole Results array (derived from CollectionItem)");
-	System.out.println("-----------------------------------------------------------");
-	singleItem = new SingleItem( (JSONObject) resultArray.get(2) ); 
-	System.out.println("from result array: maxdate = " + this.getMaxdate() );
-	*/
 	
 	
 	
@@ -277,46 +291,19 @@ public class CollectionItem{
 	 * Parameters: 	JSONObject collection - collection of "Results"
 	 * 
 	*/
-	public boolean hasResults( JSONObject obj){
+	protected boolean hasResults( JSONObject obj){
 		boolean answer = false ;
 		
 		if( obj.get("results") != null ){ answer = true; }
 		
 		return answer;
 	}// end public boolean hasResults( JSONObject obj)
-	
-	
-	
-	
-	
-	
-	/**********************************************************/
-	// inner classes
-	/**********************************************************/
 
-	
-	
-	/**
-	 * Version: 1
-	 * Author: Andreas Slovacek
-	 * Date: 03 August 2016
-	 * Description: This class takes JSON input for a Metadata Item and populates fields
-	 * Detail: 	Call setter methods on the fields found in a "Single Item"
-	 * 			Reference here - https://www.ncdc.noaa.gov/cdo-web/webservices/v2#gettingStarted
-	*/
-	protected class MetaData{
-		
-		public MetaData(JSONObject obj){
-			JSONObject resultset = new JSONObject( obj );
-			setLimit( (Integer) obj.get("limit") );
-			setCount( (Integer) obj.get("count") );
-			setOffset( (Integer) obj.get("offset") );
-		}// end MetaData
-	}// end class MetaData
+
 
 	
 	
 	
 	
 
-}// end abstract class CollectionItem
+}// end class CollectionItem

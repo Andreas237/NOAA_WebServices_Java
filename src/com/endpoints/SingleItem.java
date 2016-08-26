@@ -47,11 +47,31 @@ public class SingleItem {
 		
 		setId( (String) obj.get( "id" ) );
 		setName( (String) obj.get("name") );
-		System.out.println("Datacoverage class: " + obj.get("datacoverage").getClass() + "\tDatacoverage value: " + obj.get("datacoverage")) ;
-		Double temp = (Double) obj.get("datacoverage");
-		setDatacoverage( temp );
-		setMindate( (String) obj.get("mindate") );
-		setMaxdate( (String) obj.get("maxdate") );
+		
+		
+		/*
+		 * Check that the fields exist then set them
+		 */
+		if(  obj.get("datacoverage") != null){
+			Double temp;
+			
+			
+			// The API returns both Double and Long for Datacoverage
+			if( obj.get("datacoverage").getClass().equals( new Long(1).getClass() )  ){
+				temp =  ( (Long) obj.get("datacoverage")).doubleValue() ;
+			}// end if( obj.get("datacoverage").getClass().equals( new Long(1).getClass() )  )
+			else{
+				temp = (Double) obj.get("datacoverage") ;
+			}// end else
+			
+			setDatacoverage( temp );
+		}// end if( ( obj.get("datacoverage") != null)
+
+
+		if( obj.get("mindate") != null ){ setMindate( (String) obj.get("mindate") ); }
+		if( obj.get("datacoverage") != null ){ setMaxdate( (String) obj.get("maxdate") ); }
+		
+		
 
 	}// end SingleItem(JSONObject obj)
 	

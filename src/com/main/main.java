@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 // JSON Library
 import org.json.simple.JSONArray;
@@ -23,6 +24,11 @@ import com.endpoints.*;
 import com.requests.*;
 import com.response.EndpointObject;
 
+
+
+
+
+
 class main {
 	
 	public static void main(String[] args) throws IOException{
@@ -34,7 +40,10 @@ class main {
 		ArrayList<String> endpointsList = (new EndpointsList() ).setupEndpoints() ; // get the list of endpoints	
 		
 
-		ReadJSONInput rbis = new ReadJSONInput(baseURL,token, endpointsList.get(4) );			
+		
+		
+		// Create a JSON Object designed for this site
+		ReadJSONInput rbis = new ReadJSONInput(baseURL,token, endpointsList.get( 5 ) );			
 
 		EndpointObject EpObj = new EndpointObject( rbis.getStreamReturn() );
 		

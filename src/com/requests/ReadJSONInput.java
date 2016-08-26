@@ -93,50 +93,56 @@ public class ReadJSONInput {
 	 * @purpose THis function takes teh stream reader and try block
 	 */
 	protected DataInputStream GetStream(){
+		
+		
 		DataInputStream dis = new DataInputStream(null);
+		
+		
 		try{
-		//------------------------------------------------------------//
-        // Step 2:  Create the URL.                                   //
-        //------------------------------------------------------------//
-        // Note: Put your real URL here, or better yet, read it as a  //
-        // command-line arg, or read it from a file.                  //
-        //------------------------------------------------------------//
-			System.out.println("Trying to print myURL.......");
+
+			/*
+			 * Create a URL with an endpoint
+			 */
 			myURL = new URL(baseURL + endpoint); // throws MalformedURLException
+
+			
+			// System.out.println("Trying to print myURL.......");
+			// System.out.println(myURL);
+			// System.out.println("Printed myURL");
 		
-			System.out.println(myURL);
-			System.out.println("Printed myURL");
 		
 		
-		
-		//----------------------------------------------//
-        // Step 3:  Open an input stream from the url.  //
-        //----------------------------------------------//
-			// Open a URL connections
+
+			/*
+			 *  Open a URL connections
+			 */
 			URLConnection connection = (URLConnection) myURL.openConnection();
 			connection.setRequestProperty("token",token);
-			System.out.println("Getting content...");
-			System.out.println(connection.getDoOutput() );
 			
 			
-			// actual open stream
-			System.out.println("Trying to open Stream....");
+			// System.out.println("Getting content...");
+			// System.out.println(connection.getDoOutput() );
+			
+			
+			/* 
+			 * actual open stream
+			 */
+			// System.out.println("Trying to open Stream....");
 			is = connection.getInputStream(); // throws IOException
-			System.out.println("Stream opened");
+			// System.out.println("Stream opened");
 		
+			
+			
 		
-		//-------------------------------------------------------------//
-        // Step 4:                                                     //
-        //-------------------------------------------------------------//
-        // Convert the InputStream to a buffered DataInputStream.      //
-        // Buffering the stream makes the reading faster; the          //
-        // readLine() method of the DataInputStream makes the reading  //
-        // easier.                                                     //
-        //-------------------------------------------------------------//
+			/*
+			 * Convert InputStream to buffered DataInputStream.
+			 * reading will be faster, and readline is easy
+			 */
 			dis = new DataInputStream(new BufferedInputStream(is));
 			
 			
 			}// end try
+		
 		
 			catch (MalformedURLException mue){
 				System.out.println("Damn- malformed URL..");
@@ -147,7 +153,7 @@ public class ReadJSONInput {
 			catch (IOException ioe){
 				System.out.println("Damn- IO exception..");
 				ioe.printStackTrace();
-				System.exit(0);
+				System.exit(1);
 			}// end IOException
 
 		
@@ -166,13 +172,10 @@ public class ReadJSONInput {
 	 * Returns: string value returned from stream
 	*/
 	private String readStream() {
-		//------------------------------------------------------------//
-        // Step 5:                                                    //
-        //------------------------------------------------------------//
-        // Now just read each record of the input stream, and print   //
-        // it out.  Note that it's assumed that this problem is run   //
-        // from a command-line, not from an application or applet.    //
-        //------------------------------------------------------------//
+
+		/*
+		 * Read each record from the input
+		 */
 		String streamString = new String();
 		try{	
 			while ((s = this.dis.readLine()) != null) {
@@ -185,7 +188,7 @@ public class ReadJSONInput {
 				System.exit(1);
 			}// end IOException
 		
-		System.out.println("Stream:\n---------------------------------\n" + streamString);
+		// System.out.println("Stream:\n---------------------------------\n" + streamString);
 		return streamString;
 	}// end ReadStream
 	
