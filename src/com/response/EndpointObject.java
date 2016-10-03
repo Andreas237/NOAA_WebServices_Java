@@ -124,6 +124,12 @@ public class EndpointObject {
 		fieldList.add("limit");
 		fieldList.add("offset");
 		fieldList.add("includemetadata");
+		fieldList.add("name");
+		fieldList.add("id");
+		
+		// fieldList.add();
+		
+		
 		
 		return fieldList;
 	}// end ArrayList<String> buildFieldList()

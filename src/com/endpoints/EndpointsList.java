@@ -5,6 +5,8 @@
  * 
  * 
  * Change log:
+ * 	01 September 2016 - Removed "/data" from being added in EndpointsList(), ArrayList<String> setupEndpoints( ),
+ * 						
  * 
  */
 
@@ -53,7 +55,7 @@ public class EndpointsList {
 		endpointList.add("/locationcategories");
 		endpointList.add("/locations");
 		endpointList.add("/stations");
-		endpointList.add("/data");
+		// endpointList.add("/data");
 		
 	}// end Endpoints()
 	
@@ -73,7 +75,7 @@ public class EndpointsList {
 		endpointList.add("/locationcategories");
 		endpointList.add("/locations");
 		endpointList.add("/stations");
-		endpointList.add("/data");
+		// endpointList.add("/data");
 		
 		return endpointList;
 		

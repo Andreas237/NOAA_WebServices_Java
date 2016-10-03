@@ -1,3 +1,11 @@
+/**
+ * Author: Andreas Slovacek
+ * Created: 27 July 2016
+ * 
+ * Change log:
+ * 		01 September 2016 - Hit's every endpoint		
+ */
+
 package com.main;
 
 
@@ -43,9 +51,17 @@ class main {
 		
 		
 		// Create a JSON Object designed for this site
-		ReadJSONInput rbis = new ReadJSONInput(baseURL,token, endpointsList.get( 5 ) );			
-
+		ReadJSONInput rbis = new ReadJSONInput(baseURL,token, endpointsList.get( 5 ) );	
+		// Prints the object and fields
 		EndpointObject EpObj = new EndpointObject( rbis.getStreamReturn() );
+		
+		String sepStart = "\n\n\n-------------------------------------\n";
+		String sepEnd = "\n-------------------------------------";
+		for( int i = 0; i < endpointsList.size(); i++ ){
+			System.out.println( sepStart + endpointsList.get( i ).toString() + sepEnd);
+			rbis = new ReadJSONInput(baseURL,token, endpointsList.get( i ) );
+			EpObj = new EndpointObject( rbis.getStreamReturn() );
+		}
 		
 		System.out.println("RUN FINISHED");
 	}// End public static void main

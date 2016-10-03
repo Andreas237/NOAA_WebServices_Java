@@ -213,6 +213,7 @@ public class CollectionItem{
 		// System.out.println("\nResults 0: " + resultArray.get(0) );
 		
 		
+		
 		JSONArray resultArray = (JSONArray) collection.get("results");
 
 		
@@ -270,7 +271,7 @@ public class CollectionItem{
 				System.out.println(sep);
 				s.printAllFields();
 				
-			}// end while( itr.hasNext() )
+			}// end for( SingleItem s : this.results )
 			
 		}// end if( results.size() > 0 )
 		
