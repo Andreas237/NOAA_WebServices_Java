@@ -38,7 +38,7 @@ import org.xml.sax.SAXException;
 public class EndpointsList {
 	
 	public ArrayList<String> endpointList;
-	private String baseURL = "http://www.ncdc.noaa.gov/cdo-web/api/v2";
+	private String baseURL = "https://www.ncdc.noaa.gov/cdo-web/api/v2/";
 	
 /**
  * Purpose: to 

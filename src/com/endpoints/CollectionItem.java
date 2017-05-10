@@ -96,6 +96,11 @@ public class CollectionItem{
 	*/
 	public CollectionItem(String inString) {
 		
+		
+		System.out.println("\n\nChecking inString:\n") ;
+		System.out.println(inString);
+		System.out.println("\n\n Checked inString:\n\n") ;
+		
 		this.buildJSONObject(inString);
 
 		this.setMetaData( (JSONObject) this.CollectionItemJSON.get("metadata") );

@@ -43,7 +43,8 @@ class main {
 		
 		
 		// Stuff from me
-		String baseURL = new String("http://www.ncdc.noaa.gov/cdo-web/api/v2");
+		//TODO Should be moved to a setup class.  Change "Endpoints" to "URLSetup"
+		String baseURL = new String("https://www.ncdc.noaa.gov/cdo-web/api/v2");
 		String token = new String("xdRtVRjotxEKXVgzXgCgadmAWrHkKFrr");
 		ArrayList<String> endpointsList = (new EndpointsList() ).setupEndpoints() ; // get the list of endpoints	
 		
