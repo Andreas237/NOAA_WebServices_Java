@@ -11,6 +11,5 @@ I learned how to:
 -allow a user to interact with the API in real time
 
 **//TO DO:**
-My goal is to store the data in an SQL database and open that connection everytime the app starts, and only read in new data.
-I would also like to host the app in my Amazon instance.
-Unfortunately I am poor since I quit my job to work toward a computer science masters and thus my laptop is weak, and I don't want to pay for Amazon...  RaspberryPi I'm looking at you.
+My goal is to store the data in MongoDB and Derby DB and open those connection everytime the app starts, and only read in new data.  They are redundant, but using different connections is always fun.
+I would also like to host the app.
